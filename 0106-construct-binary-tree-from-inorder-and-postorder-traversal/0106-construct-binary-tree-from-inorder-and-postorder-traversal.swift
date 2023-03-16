@@ -14,11 +14,14 @@
  * }
  */
 class Solution {
+    var inorder: [Int] = [], postorder: [Int] = []
     func buildTree(_ inorder: [Int], _ postorder: [Int]) -> TreeNode? {
-        return helper(0, inorder.count - 1, 0, postorder.count - 1, inorder, postorder)
+        self.inorder = inorder
+        self.postorder = postorder
+        return helper(0, inorder.count - 1, 0, postorder.count - 1)
     }
     
-    func helper(_ inStart: Int, _ inEnd: Int, _ postStart: Int, _ postEnd: Int, _ inorder: [Int], _ postorder: [Int]) -> TreeNode? {
+    func helper(_ inStart: Int, _ inEnd: Int, _ postStart: Int, _ postEnd: Int) -> TreeNode? {
         if postStart > postEnd {
             return nil
         }
@@ -32,8 +35,8 @@ class Solution {
                 break
             }
         }
-        root.left = helper(inStart, inIndex - 1, postStart, postStart + inIndex - inStart - 1, inorder, postorder)
-        root.right = helper(inIndex + 1, inEnd, postEnd - inEnd + inIndex, postEnd - 1, inorder, postorder)
+        root.left = helper(inStart, inIndex - 1, postStart, postStart + inIndex - inStart - 1)
+        root.right = helper(inIndex + 1, inEnd, postEnd - inEnd + inIndex, postEnd - 1)
         
         return root
     }
