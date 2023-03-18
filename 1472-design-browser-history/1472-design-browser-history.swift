@@ -1,6 +1,5 @@
 
-class BrowserHistory {
-    final class Node {
+final class Node {
         var url: String
         var front: Node?, rear: Node?
         init(_ url: String, _ front: Node?, _ rear: Node?) {
@@ -19,6 +18,8 @@ class BrowserHistory {
             return url
         }
     }
+
+final class BrowserHistory {
     var head = Node("")
     var tail = Node("")
     var urlStack: [String]
