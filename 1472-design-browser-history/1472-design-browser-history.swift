@@ -50,7 +50,7 @@ class BrowserHistory {
             }
             steps -= 1
         }
-        return urlStack.last ?? ""
+        return urlStack[nowUrl]
     }
     
     func forward(_ steps: Int) -> String {
@@ -62,7 +62,7 @@ class BrowserHistory {
             }
             steps -= 1
         }
-        return urlStack.last ?? ""
+        return urlStack[nowUrl]
     }
 }
 
