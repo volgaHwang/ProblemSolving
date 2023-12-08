@@ -16,14 +16,23 @@
 
 class Solution {
     func tree2str(_ root: TreeNode?) -> String {
-        if root == nil { return "" }
-        var str = "\(root?.val ?? 0)"
-        if root?.left != nil || root?.right != nil  {
-            str += "(" + tree2str(root?.left) + ")"
+        guard let value = root?.val else {
+            return ""
         }
-        if root?.right != nil {
-            str += "(" + tree2str(root?.right) + ")"
+        var answer = "\(value)"
+        var left = ""
+        var right = ""
+        if nil != root?.left {
+            left = "(" + tree2str(root?.left) + ")"
         }
-        return str
+        if nil != root?.right {
+            right = "(" + tree2str(root?.right) + ")"
+        }
+        if left == "", right != "" {
+            answer += "()" + right
+        } else {
+            answer += left + right
+        }
+        return answer
     }
 }
