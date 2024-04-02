@@ -1,6 +1,9 @@
 class Solution {    
     func isIsomorphic(_ s: String, _ t: String) -> Bool {
         let s1 = isMorphic(s, t)
+        if !s1 {
+            return false
+        }
         let s2 = isMorphic(t, s)
         
         return s1 && s2
