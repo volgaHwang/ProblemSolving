@@ -1,11 +1,14 @@
 class Solution {
     func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
-        let m = nums1.count
-        let n = nums2.count
+        var nums1 = nums1
+        var nums2 = nums2
+        var m = nums1.count
+        var n = nums2.count
         
-        // Ensure nums1 is the smaller array
+        // nums1이 항상 작은 배열이 되도록 조정
         if m > n {
-            return findMedianSortedArrays(nums2, nums1)
+            swap(&nums1, &nums2)
+            swap(&m, &n)
         }
         
         var imin = 0
@@ -17,14 +20,14 @@ class Solution {
             let j = halfLen - i
             
             if i < m && nums2[j - 1] > nums1[i] {
-                // i is too small, must increase it
+                // i가 너무 작으므로 증가시킵니다.
                 imin = i + 1
             } else if i > 0 && nums1[i - 1] > nums2[j] {
-                // i is too big, must decrease it
+                // i가 너무 크므로 감소시킵니다.
                 imax = i - 1
             } else {
-                // i is perfect
-                var maxLeft = 0
+                // i가 적절한 경우
+                var maxLeft: Int
                 if i == 0 {
                     maxLeft = nums2[j - 1]
                 } else if j == 0 {
@@ -37,7 +40,7 @@ class Solution {
                     return Double(maxLeft)
                 }
                 
-                var minRight = 0
+                var minRight: Int
                 if i == m {
                     minRight = nums2[j]
                 } else if j == n {
@@ -49,6 +52,7 @@ class Solution {
                 return Double(maxLeft + minRight) / 2.0
             }
         }
+        
         return 0.0
     }
 }
