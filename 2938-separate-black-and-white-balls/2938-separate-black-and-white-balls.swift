@@ -1,13 +1,13 @@
 class Solution {
     func minimumSteps(_ s: String) -> Int {
-        var zerosToRight = 0
+        var onesToLeft = 0
         var swaps = 0
-        let characters = Array(s)
-        for i in stride(from: characters.count - 1, through: 0, by: -1) {
-            if characters[i] == "0" {
-                zerosToRight += 1
-            } else if characters[i] == "1" {
-                swaps += zerosToRight
+        let sBytes = [UInt8](s.utf8)
+        for byte in sBytes {
+            if byte == 49 { // '1'
+                onesToLeft += 1
+            } else if byte == 48 { // '0'
+                swaps += onesToLeft
             }
         }
         return swaps
