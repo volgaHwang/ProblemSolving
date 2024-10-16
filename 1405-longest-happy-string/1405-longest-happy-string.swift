@@ -1,45 +1,40 @@
 class Solution {
     func longestDiverseString(_ a: Int, _ b: Int, _ c: Int) -> String {
         var result = ""
-        var countA = a
-        var countB = b
-        var countC = c
+        var counts = [("a", a), ("b", b), ("c", c)]
         var lastChar = ""
         var lastCount = 0
 
         while true {
-            var candidates = [("a", countA), ("b", countB), ("c", countC)]
-            // 정렬을 하지 않고, 남은 개수가 많은 순서로 직접 비교
-            candidates.sort { $0.1 > $1.1 }
-            var found = false
+            // 개수를 기준으로 내림차순 정렬
+            counts.sort { $0.1 > $1.1 }
+            var hasNext = false
 
-            for (char, count) in candidates {
+            for i in 0..<counts.count {
+                let (char, count) = counts[i]
                 if count == 0 {
                     continue
                 }
                 if lastChar == char && lastCount == 2 {
                     continue
                 }
-                // 문자 추가
+
+                // 결과 문자열에 문자 추가
                 result.append(char)
-                if char == "a" {
-                    countA -= 1
-                } else if char == "b" {
-                    countB -= 1
-                } else if char == "c" {
-                    countC -= 1
-                }
+                counts[i].1 -= 1
+
                 if lastChar == char {
                     lastCount += 1
                 } else {
                     lastChar = char
                     lastCount = 1
                 }
-                found = true
+
+                hasNext = true
                 break
             }
 
-            if !found {
+            if !hasNext {
                 break
             }
         }
