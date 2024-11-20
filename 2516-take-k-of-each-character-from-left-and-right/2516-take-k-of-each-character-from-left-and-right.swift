@@ -1,36 +1,40 @@
 class Solution {
     func takeCharacters(_ s: String, _ k: Int) -> Int {
-        var totalCounts = [Character: Int]()
-        for char in s {
-            totalCounts[char, default: 0] += 1
+        let n = s.count
+        let sArray = Array(s)
+        
+        // 총 문자 개수 계산
+        var totalCounts = [Int](repeating: 0, count: 3)
+        for char in sArray {
+            let idx = index(char)
+            totalCounts[idx] += 1
         }
         
-        // 'a', 'b', 'c' 각각에 대해 개수 확인
-        for char in ["a", "b", "c"] {
-            let character = Character(char)
-            if totalCounts[character, default: 0] < k {
+        // 각 문자의 총 개수가 k보다 작은 경우 -1 반환
+        for count in totalCounts {
+            if count < k {
                 return -1
             }
         }
         
-        let n = s.count
+        // k가 0인 경우 0 반환
         if k == 0 {
             return 0
         }
         
-        var counts = [Character: Int]()
-        var maxLength = 0
+        // 슬라이딩 윈도우를 사용하여 최대 부분 문자열 찾기
+        var counts = [Int](repeating: 0, count: 3)
         var left = 0
-        let characters = Array(s)
+        var maxLength = 0
         
         for right in 0..<n {
-            let rightChar = characters[right]
-            counts[rightChar, default: 0] += 1
+            let rightCharIdx = index(sArray[right])
+            counts[rightCharIdx] += 1
             
             // 조건을 만족하지 않을 경우 윈도우 축소
-            while counts[rightChar]! > totalCounts[rightChar]! - k {
-                let leftChar = characters[left]
-                counts[leftChar]! -= 1
+            while counts[rightCharIdx] > totalCounts[rightCharIdx] - k {
+                let leftCharIdx = index(sArray[left])
+                counts[leftCharIdx] -= 1
                 left += 1
             }
             
@@ -38,5 +42,19 @@ class Solution {
         }
         
         return n - maxLength
+    }
+    
+    // 'a'를 0, 'b'를 1, 'c'를 2로 매핑하는 함수
+    private func index(_ char: Character) -> Int {
+        switch char {
+        case "a":
+            return 0
+        case "b":
+            return 1
+        case "c":
+            return 2
+        default:
+            return -1 // 오류 발생 시 기본값
+        }
     }
 }
