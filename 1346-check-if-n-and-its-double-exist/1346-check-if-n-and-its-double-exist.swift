@@ -1,21 +1,25 @@
 class Solution {
     func checkIfExist(_ arr: [Int]) -> Bool {
-        var dict: [Int: (Int, Bool)] = [:]
-        for i in 0..<arr.count {
-            dict[arr[i]] = (i, true)
+        var numSet = Set<Int>()
+        var zeroCount = 0
+        
+        for num in arr {
+            if num == 0 {
+                zeroCount += 1
+            }
+            numSet.insert(num)
         }
         
-        for i in 0..<arr.count {
-            let a = arr[i]
-            let jd = dict[arr[i] * 2, default: (-1, false)]
-            let j = jd.0
-            let d = jd.1
-            
-            if i == j { continue }
-            if d {
+        if zeroCount >= 2 {
+            return true
+        }
+        
+        for num in arr {
+            if num != 0 && numSet.contains(num * 2) {
                 return true
             }
         }
+        
         return false
     }
 }
